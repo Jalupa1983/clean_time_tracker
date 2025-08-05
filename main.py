@@ -432,7 +432,7 @@ class NAReadingsMenuScreen(Screen):
             text="Just For Today",
             size_hint=(None, None),
             size=(300, 60),
-            pos_hint={"center_x": 0.5, "center_y": 0.6},
+            pos_hint={"center_x": 0.5, "center_y": 0.58},
             font_size=18
         )
         jft_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'just_for_today'))
@@ -986,7 +986,7 @@ class AAReadingsMenuScreen(Screen):
             text="Daily Reflections Reading",
             size_hint=(None, None),
             size=(300, 60),
-            pos_hint={"center_x": 0.5, "center_y": 0.65},
+            pos_hint={"center_x": 0.5, "center_y": 0.58},
             font_size=18
         )
         btn1.bind(on_press=self.open_daily_reflections_screen)
@@ -996,7 +996,7 @@ class AAReadingsMenuScreen(Screen):
             text="AA Big Book",
             size_hint=(None, None),
             size=(300, 60),
-            pos_hint={"center_x": 0.5, "center_y": 0.52},
+            pos_hint={"center_x": 0.5, "center_y": 0.47},
             font_size=18
         )
         btn2.bind(on_press=lambda x: setattr(self.manager, 'current', 'aa_big_book'))
@@ -1006,7 +1006,7 @@ class AAReadingsMenuScreen(Screen):
             text="12 Steps and 12 Traditions",
             size_hint=(None, None),
             size=(300, 60),
-            pos_hint={"center_x": 0.5, "center_y": 0.39},
+            pos_hint={"center_x": 0.5, "center_y": 0.36},
             font_size=18
         )
         btn3.bind(on_press=lambda x: setattr(self.manager, 'current', 'aa_12_steps'))
@@ -1017,7 +1017,7 @@ class AAReadingsMenuScreen(Screen):
             text="24 Hours a Day",
             size_hint=(None, None),
             size=(300, 60),
-            pos_hint={"center_x": 0.5, "center_y": 0.26},  # Positioned below btn3
+            pos_hint={"center_x": 0.5, "center_y": 0.25},  # Positioned below btn3
             font_size=18
         )
         btn4.bind(on_press=self.open_24_hours_screen)
