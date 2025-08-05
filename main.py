@@ -1586,6 +1586,8 @@ class MyScreenManager(ScreenManager):
 
 class CleanTimeApp(App):
     def build(self):
+        self.title = "From Darkness We Climb"  # <-- Add this line
+
         self.sm = MyScreenManager()
         # Load user data and decide where to go:
         user_data = load_user_data()
@@ -1598,3 +1600,4 @@ class CleanTimeApp(App):
 
 if __name__ == "__main__":
     CleanTimeApp().run()
+
