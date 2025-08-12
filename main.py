@@ -1,24 +1,30 @@
-import os 
-import random
 import calendar
-import fitz  # PyMuPDF
-from datetime import datetime
 from calendar import monthrange
-from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, SlideTransition, Screen
-from kivy.uix.boxlayout import BoxLayout 
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-from kivy.uix.spinner import Spinner
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.image import Image
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.popup import Popup
-from kivy.uix.textinput import TextInput
-from kivy.uix.scrollview import ScrollView
-from kivy.core.image import Image as CoreImage
+import json
+import os
+import random
+from datetime import date, datetime, timedelta
 from io import BytesIO
-from storage import save_user_data, load_user_data  # Your JSON storage handlers
+from pathlib import Path
+from kivy.app import App
+from kivy.core.image import Image as CoreImage
+from kivy.core.window import Window
+from kivy.metrics import dp
+from kivy.resources import resource_find
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
+from kivy.uix.label import Label
+from kivy.uix.popup import Popup
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
+from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
+from kivy.uix.widget import Widget
+from storage import load_user_data, save_user_data  # Your JSON storage handlers
 
 # Force working directory to this script's folder
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -60,12 +66,6 @@ def get_random_image():
     return os.path.join(IMAGE_FOLDER, random.choice(images))
 
 
-from kivy.uix.screenmanager import Screen
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-from kivy.core.window import Window
-
 class WelcomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -78,7 +78,7 @@ class WelcomeScreen(Screen):
                   "You’ve taken the first step toward healing, and that’s no small thing.\n\n"
                   "Whether this is day one or day one hundred, your commitment to change is a sign of strength — not weakness.\n\n"
                   "This journey isn’t easy, but you’re not alone. Every clean day is a win. Every moment is a victory. "
-                  "And this app is here to walk with you, one step at a time."),
+                  "This app is here to walk with you, one step at a time."),
             halign="center",
             valign="top",
             font_size=24,
@@ -257,8 +257,6 @@ class SetupScreen(Screen):
         self.manager.get_screen("main").update_screen()
 
 
-import os  # make sure this is at the top of your file
-
 class MainScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -330,9 +328,6 @@ class MainScreen(Screen):
             self.label.text = "Error loading data."
             print("Exception in update_screen:", e)
 
-
-from kivy.uix.widget import Widget  # spacer widget
-from pathlib import Path
 
 DATA_FILE = Path("JSON_files/user_data.json")
 
@@ -406,11 +401,6 @@ class HomeScreen(Screen):
         self.manager.transition_to("setup")
 
 
-from kivy.uix.screenmanager import Screen
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-
 class NAReadingsMenuScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -449,28 +439,6 @@ class NAReadingsMenuScreen(Screen):
         basic_text_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'na_basic_text'))
         layout.add_widget(basic_text_btn)
 
-        # # It Works How and Why button
-        # it_works_btn = Button(
-        #     text="It Works How and Why",
-        #     size_hint=(None, None),
-        #     size=(300, 60),
-        #     pos_hint={"center_x": 0.5, "center_y": 0.36},
-        #     font_size=18
-        # )
-        # it_works_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'it_works'))
-        # layout.add_widget(it_works_btn)
-
-        # # NA Step Guide button
-        # step_guide_btn = Button(
-        #     text="NA Step Guide",
-        #     size_hint=(None, None),
-        #     size=(300, 60),
-        #     pos_hint={"center_x": 0.5, "center_y": 0.25},
-        #     font_size=18
-        # )
-        # step_guide_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'na_step_guide'))
-        # layout.add_widget(step_guide_btn)
-
         # Back button bottom right
         back_btn = Button(
             text="Back",
@@ -484,17 +452,6 @@ class NAReadingsMenuScreen(Screen):
 
         self.add_widget(layout)
 
-
-import os
-import json
-from kivy.metrics import dp
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.button import Button
-from datetime import datetime, timedelta
 
 class JustForTodayScreen(Screen):
     def on_enter(self):
@@ -613,17 +570,6 @@ class JustForTodayScreen(Screen):
         self.build_ui()
 
 
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
-from kivy.uix.screenmanager import Screen
-from kivy.resources import resource_find
-import json
-import os
-
 class NABasicTextScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -740,246 +686,6 @@ class NABasicTextScreen(Screen):
         self.manager.current = 'na_readings'
 
 
-# from kivy.uix.textinput import TextInput
-# from kivy.uix.boxlayout import BoxLayout
-# from kivy.uix.button import Button
-# from kivy.uix.label import Label
-# from kivy.core.image import Image as CoreImage
-# from kivy.uix.image import Image
-# from kivy.uix.floatlayout import FloatLayout
-# from kivy.uix.screenmanager import Screen
-# from io import BytesIO
-# import fitz  # PyMuPDF
-# import os
-
-# class ItWorksScreen(Screen):
-#     OFFSET = 6  # PDF page 7 will be logical page 1
-
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-    
-#         pdf_path = os.path.join(os.path.dirname(__file__), "PDF_files", "It_Works.pdf")
-#         self.doc = fitz.open(pdf_path)
-
-#         self.zoom = 1.5
-#         self.current_page = 0
-
-#         root = FloatLayout()
-
-#         layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
-#         self.image = Image()
-#         layout.add_widget(self.image)
-
-#         nav = BoxLayout(size_hint=(1, None), height=50, spacing=10)
-
-#         self.page_input = TextInput(
-#             text='1',
-#             multiline=False,
-#             size_hint=(None, None),
-#             size=(80, 44),
-#             input_filter='int'
-#         )
-#         go_button = Button(text="Go", size_hint=(None, None), size=(60, 44))
-#         prev_button = Button(text="Previous", size_hint=(None, None), size=(100, 44))
-#         next_button = Button(text="Next", size_hint=(None, None), size=(100, 44))
-
-#         nav.add_widget(Label(text="Page:", size_hint=(None, None), size=(50, 44)))
-#         nav.add_widget(self.page_input)
-#         nav.add_widget(go_button)
-#         nav.add_widget(prev_button)
-#         nav.add_widget(next_button)
-
-#         layout.add_widget(nav)
-#         root.add_widget(layout)
-
-#         # Back button
-#         back_button = Button(
-#             text='Back',
-#             size_hint=(None, None),
-#             size=(100, 50),
-#             pos_hint={'right': 0.98, 'y': 0.02},
-#             font_size=16
-#         )
-#         back_button.bind(on_press=self.go_back)
-#         root.add_widget(back_button)
-
-#         self.add_widget(root)
-
-#         go_button.bind(on_press=self.go_to_logical_page)
-#         prev_button.bind(on_press=self.prev_page)
-#         next_button.bind(on_press=self.next_page)
-
-#         self.load_page(self.current_page)
-
-#     def load_page(self, page_num):
-#         if 0 <= page_num < len(self.doc):
-#             self.current_page = page_num
-#             page = self.doc.load_page(page_num)
-#             mat = fitz.Matrix(self.zoom, self.zoom)
-#             pix = page.get_pixmap(matrix=mat)
-#             img_data = pix.tobytes("png")
-#             data = BytesIO(img_data)
-#             core_img = CoreImage(data, ext="png")
-#             self.image.texture = core_img.texture
-
-#             if page_num >= self.OFFSET:
-#                 logical_page = page_num - self.OFFSET + 1
-#                 self.page_input.text = str(logical_page)
-#             else:
-#                 self.page_input.text = ""
-
-#     def go_to_logical_page(self, instance):
-#         try:
-#             logical_page = int(self.page_input.text)
-#             if logical_page < 1:
-#                 logical_page = 1
-#             pdf_page = logical_page + self.OFFSET - 1
-#             if pdf_page >= len(self.doc):
-#                 pdf_page = len(self.doc) - 1
-#             self.load_page(pdf_page)
-#         except ValueError:
-#             pass
-
-#     def next_page(self, instance):
-#         if self.current_page + 1 < len(self.doc):
-#             self.load_page(self.current_page + 1)
-
-#     def prev_page(self, instance):
-#         if self.current_page > 0:
-#             self.load_page(self.current_page - 1)
-
-#     def go_back(self, instance):
-#         self.manager.current = 'na_readings'
-
-
-# from kivy.uix.textinput import TextInput
-# from kivy.uix.boxlayout import BoxLayout
-# from kivy.uix.button import Button
-# from kivy.uix.label import Label
-# from kivy.core.image import Image as CoreImage
-# from kivy.uix.image import Image
-# from kivy.uix.floatlayout import FloatLayout
-# from kivy.uix.screenmanager import Screen
-# from io import BytesIO
-# import fitz  # PyMuPDF
-# import os
-
-# class NAStepGuideScreen(Screen):
-#     OFFSET = 3  # PDF page 4 will be logical page 1
-
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-    
-#         pdf_path = os.path.join(os.path.dirname(__file__), "PDF_files", "NA_Step_Guide.pdf")
-#         self.doc = fitz.open(pdf_path)
-
-#         self.zoom = 1.5
-#         self.current_page = 0
-
-#         root = FloatLayout()
-
-#         layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
-#         self.image = Image()
-#         layout.add_widget(self.image)
-
-#         nav = BoxLayout(size_hint=(1, None), height=50, spacing=10)
-
-#         self.page_input = TextInput(
-#             text='1',
-#             multiline=False,
-#             size_hint=(None, None),
-#             size=(80, 44),
-#             input_filter='int'
-#         )
-#         go_button = Button(text="Go", size_hint=(None, None), size=(60, 44))
-#         prev_button = Button(text="Previous", size_hint=(None, None), size=(100, 44))
-#         next_button = Button(text="Next", size_hint=(None, None), size=(100, 44))
-
-#         nav.add_widget(Label(text="Page:", size_hint=(None, None), size=(50, 44)))
-#         nav.add_widget(self.page_input)
-#         nav.add_widget(go_button)
-#         nav.add_widget(prev_button)
-#         nav.add_widget(next_button)
-
-#         layout.add_widget(nav)
-#         root.add_widget(layout)
-
-#         # Back button
-#         back_button = Button(
-#             text='Back',
-#             size_hint=(None, None),
-#             size=(100, 50),
-#             pos_hint={'right': 0.98, 'y': 0.02},
-#             font_size=16
-#         )
-#         back_button.bind(on_press=self.go_back)
-#         root.add_widget(back_button)
-
-#         self.add_widget(root)
-
-#         # Button bindings
-#         go_button.bind(on_press=self.go_to_logical_page)
-#         prev_button.bind(on_press=self.prev_page)
-#         next_button.bind(on_press=self.next_page)
-
-#         self.load_page(self.current_page)
-
-#     def load_page(self, page_num):
-#         if 0 <= page_num < len(self.doc):
-#             self.current_page = page_num
-#             page = self.doc.load_page(page_num)
-#             mat = fitz.Matrix(self.zoom, self.zoom)
-#             pix = page.get_pixmap(matrix=mat)
-#             img_data = pix.tobytes("png")
-#             data = BytesIO(img_data)
-#             core_img = CoreImage(data, ext="png")
-#             self.image.texture = core_img.texture
-
-#             if page_num >= self.OFFSET:
-#                 logical_page = page_num - self.OFFSET + 1
-#                 self.page_input.text = str(logical_page)
-#             else:
-#                 self.page_input.text = ""
-
-#     def go_to_logical_page(self, instance):
-#         try:
-#             logical_page = int(self.page_input.text)
-#             if logical_page < 1:
-#                 logical_page = 1
-#             pdf_page = logical_page + self.OFFSET - 1
-#             if pdf_page >= len(self.doc):
-#                 pdf_page = len(self.doc) - 1
-#             self.load_page(pdf_page)
-#         except ValueError:
-#             pass
-
-#     def next_page(self, instance):
-#         if self.current_page + 1 < len(self.doc):
-#             self.load_page(self.current_page + 1)
-
-#     def prev_page(self, instance):
-#         if self.current_page > 0:
-#             self.load_page(self.current_page - 1)
-
-#     def go_back(self, instance):
-#         self.manager.current = 'na_readings'
-
-
-from kivy.uix.screenmanager import Screen
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.image import Image
-from kivy.core.image import Image as CoreImage
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.widget import Widget
-from kivy.metrics import dp
-from datetime import date
-# import fitz  # PyMuPDF
-# from io import BytesIO
-
 class AAReadingsMenuScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1005,36 +711,15 @@ class AAReadingsMenuScreen(Screen):
         btn1.bind(on_press=self.open_daily_reflections_screen)
         layout.add_widget(btn1)
 
-        # btn2 = Button(
-        #     text="AA Big Book",
-        #     size_hint=(None, None),
-        #     size=(300, 60),
-        #     pos_hint={"center_x": 0.5, "center_y": 0.26},
-        #     font_size=18
-        # )
-        # btn2.bind(on_press=lambda x: setattr(self.manager, 'current', 'aa_big_book'))
-        # layout.add_widget(btn2)
-
-        # btn3 = Button(
-        #     text="12 Steps and 12 Traditions",
-        #     size_hint=(None, None),
-        #     size=(300, 60),
-        #     pos_hint={"center_x": 0.5, "center_y": 0.36},
-        #     font_size=18
-        # )
-        # btn3.bind(on_press=lambda x: setattr(self.manager, 'current', 'aa_12_steps'))
-        # layout.add_widget(btn3)
-
-        # New 24 Hours a Day button
-        btn4 = Button(
+        btn2 = Button(
             text="24 Hours a Day",
             size_hint=(None, None),
             size=(300, 60),
             pos_hint={"center_x": 0.5, "center_y": 0.47},  # Positioned below btn3
             font_size=18
         )
-        btn4.bind(on_press=self.open_24_hours_screen)
-        layout.add_widget(btn4)
+        btn2.bind(on_press=self.open_24_hours_screen)
+        layout.add_widget(btn2)
 
         back_btn = Button(
             text="Back",
@@ -1062,18 +747,6 @@ class AAReadingsMenuScreen(Screen):
         if hasattr(screen, 'load_today_reading'):
             screen.load_today_reading()
 
-
-import os
-import json
-from datetime import datetime, timedelta
-from kivy.uix.screenmanager import Screen
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
-from kivy.metrics import dp
 
 class AADailyReflectionsScreen(Screen):
     def on_enter(self):
@@ -1196,215 +869,6 @@ class AADailyReflectionsScreen(Screen):
     def go_back(self, *args):
         self.manager.current = 'aa_readings' if 'aa_readings' in self.manager.screen_names else 'home'
 
-
-# import os
-# import fitz
-# from kivy.uix.screenmanager import Screen
-# from kivy.uix.boxlayout import BoxLayout
-# from kivy.uix.floatlayout import FloatLayout
-# from kivy.uix.image import Image
-# from kivy.uix.label import Label
-# from kivy.uix.button import Button
-# from kivy.uix.textinput import TextInput
-# from kivy.core.image import Image as CoreImage
-# from io import BytesIO
-
-# class AABigBookScreen(Screen):
-#     OFFSET = 22  # Page number in PDF that corresponds to logical page 1
-
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         pdf_path = os.path.join(os.path.dirname(__file__), "PDF_files", "AA-BigBook-4th-Edition.pdf")
-#         self.doc = fitz.open(pdf_path)
-#         self.zoom = 1.5
-#         self.current_page = 0
-
-#         root = FloatLayout()
-#         layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
-#         self.image = Image()
-#         layout.add_widget(self.image)
-
-#         nav = BoxLayout(size_hint=(1, None), height=50, spacing=10)
-#         self.page_input = TextInput(text='1', multiline=False, size_hint=(None, None), size=(80, 44), input_filter='int')
-#         go_button = Button(text="Go", size_hint=(None, None), size=(60, 44))
-#         prev_button = Button(text="Previous", size_hint=(None, None), size=(100, 44))
-#         next_button = Button(text="Next", size_hint=(None, None), size=(100, 44))
-
-#         nav.add_widget(Label(text="Page:", size_hint=(None, None), size=(50, 44)))
-#         nav.add_widget(self.page_input)
-#         nav.add_widget(go_button)
-#         nav.add_widget(prev_button)
-#         nav.add_widget(next_button)
-
-#         layout.add_widget(nav)
-#         root.add_widget(layout)
-
-#         back_button = Button(
-#             text='Back',
-#             size_hint=(None, None),
-#             size=(100, 50),
-#             pos_hint={'right': 0.98, 'y': 0.02},
-#             font_size=16
-#         )
-#         back_button.bind(on_press=self.go_back)
-#         root.add_widget(back_button)
-
-#         self.add_widget(root)
-
-#         go_button.bind(on_press=self.go_to_logical_page)
-#         prev_button.bind(on_press=self.prev_page)
-#         next_button.bind(on_press=self.next_page)
-
-#         self.load_page(self.current_page)
-
-#     def load_page(self, page_num):
-#         if 0 <= page_num < len(self.doc):
-#             self.current_page = page_num
-#             page = self.doc.load_page(page_num)
-#             mat = fitz.Matrix(self.zoom, self.zoom)
-#             pix = page.get_pixmap(matrix=mat)
-#             img_data = pix.tobytes("png")
-#             data = BytesIO(img_data)
-#             core_img = CoreImage(data, ext="png")
-#             self.image.texture = core_img.texture
-
-#             if page_num >= self.OFFSET:
-#                 logical_page = page_num - self.OFFSET + 1
-#                 self.page_input.text = str(logical_page)
-#             else:
-#                 self.page_input.text = ""
-
-#     def go_to_logical_page(self, instance):
-#         try:
-#             logical_page = int(self.page_input.text)
-#             if logical_page < 1:
-#                 logical_page = 1
-#             pdf_page = logical_page + self.OFFSET - 2
-#             if pdf_page >= len(self.doc):
-#                 pdf_page = len(self.doc) - 1
-#             self.load_page(pdf_page)
-#         except ValueError:
-#             pass
-
-#     def next_page(self, instance):
-#         if self.current_page + 1 < len(self.doc):
-#             self.load_page(self.current_page + 1)
-
-#     def prev_page(self, instance):
-#         if self.current_page > 0:
-#             self.load_page(self.current_page - 1)
-
-#     def go_back(self, instance):
-#         self.manager.current = 'aa_readings'
-
-
-# import os
-# import fitz
-# from kivy.uix.screenmanager import Screen
-# from kivy.uix.boxlayout import BoxLayout
-# from kivy.uix.floatlayout import FloatLayout
-# from kivy.uix.image import Image
-# from kivy.uix.label import Label
-# from kivy.uix.button import Button
-# from kivy.uix.textinput import TextInput
-# from kivy.core.image import Image as CoreImage
-# from io import BytesIO
-
-# class AA12StepsScreen(Screen):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         pdf_path = os.path.join(os.path.dirname(__file__), "PDF_files", "AA-12-Steps-12-Traditions.pdf")
-#         self.doc = fitz.open(pdf_path)
-#         self.zoom = 1.5
-#         self.current_page = 0
-
-#         root = FloatLayout()
-#         layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
-#         self.image = Image()
-#         layout.add_widget(self.image)
-
-#         nav = BoxLayout(size_hint=(1, None), height=50, spacing=10)
-#         self.page_input = TextInput(text='1', multiline=False, size_hint=(None, None), size=(80, 44), input_filter='int')
-#         go_button = Button(text="Go", size_hint=(None, None), size=(60, 44))
-#         prev_button = Button(text="Previous", size_hint=(None, None), size=(100, 44))
-#         next_button = Button(text="Next", size_hint=(None, None), size=(100, 44))
-
-#         nav.add_widget(Label(text="Page:", size_hint=(None, None), size=(50, 44)))
-#         nav.add_widget(self.page_input)
-#         nav.add_widget(go_button)
-#         nav.add_widget(prev_button)
-#         nav.add_widget(next_button)
-
-#         layout.add_widget(nav)
-#         root.add_widget(layout)
-
-#         back_button = Button(
-#             text='Back',
-#             size_hint=(None, None),
-#             size=(100, 50),
-#             pos_hint={'right': 0.98, 'y': 0.02},
-#             font_size=16
-#         )
-#         back_button.bind(on_press=self.go_back)
-#         root.add_widget(back_button)
-
-#         self.add_widget(root)
-
-#         go_button.bind(on_press=self.go_to_logical_page)
-#         prev_button.bind(on_press=self.prev_page)
-#         next_button.bind(on_press=self.next_page)
-
-#         self.load_page(self.current_page)
-
-#     def load_page(self, page_num):
-#         if 0 <= page_num < len(self.doc):
-#             self.current_page = page_num
-#             page = self.doc.load_page(page_num)
-#             mat = fitz.Matrix(self.zoom, self.zoom)
-#             pix = page.get_pixmap(matrix=mat)
-#             img_data = pix.tobytes("png")
-#             data = BytesIO(img_data)
-#             core_img = CoreImage(data, ext="png")
-#             self.image.texture = core_img.texture
-
-#             # Show user-facing page number (1-indexed)
-#             self.page_input.text = str(page_num + 1)
-
-#     def go_to_logical_page(self, instance):
-#         try:
-#             user_page = int(self.page_input.text)
-#             if user_page < 1:
-#                 user_page = 1
-#             pdf_page = user_page - 1  # zero-based page index directly
-#             if pdf_page >= len(self.doc):
-#                 pdf_page = len(self.doc) - 1
-#             self.load_page(pdf_page)
-#         except ValueError:
-#             pass
-
-#     def next_page(self, instance):
-#         if self.current_page + 1 < len(self.doc):
-#             self.load_page(self.current_page + 1)
-
-#     def prev_page(self, instance):
-#         if self.current_page > 0:
-#             self.load_page(self.current_page - 1)
-
-#     def go_back(self, instance):
-#         self.manager.current = 'aa_readings'
-
-
-import os
-import json
-from datetime import datetime, timedelta, date
-from kivy.uix.screenmanager import Screen
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
-from kivy.metrics import dp
 
 class AA24HoursaDayScreen(Screen):
     def __init__(self, **kwargs):
@@ -1561,11 +1025,7 @@ class MyScreenManager(ScreenManager):
         self.add_widget(AAReadingsMenuScreen(name="aa_readings"))
         self.add_widget(JustForTodayScreen(name="just_for_today"))
         self.add_widget(NABasicTextScreen(name="na_basic_text"))
-        #self.add_widget(ItWorksScreen(name="it_works"))
-        #self.add_widget(NAStepGuideScreen(name="na_step_guide"))
         self.add_widget(AADailyReflectionsScreen(name="aa_daily_reflections"))
-        #self.add_widget(AABigBookScreen(name="aa_big_book"))
-        #self.add_widget(AA12StepsScreen(name="aa_12_steps"))
         self.add_widget(AA24HoursaDayScreen(name="aa_24_hours_a_day"))
     
 
