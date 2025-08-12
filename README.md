@@ -16,11 +16,9 @@ Just for Today (NA Daily Readings)
 
 NA Basic Text
 
-AA Daily Reflections
+AA Daily Reflections (AA Daily Readings)
 
-AA Big Book (searchable by page)
-
-12 Steps and 12 Traditions (searchable by page)
+Twenty-Four Hours a Day (AA Daily Readins)
 
 Optional Reset Button to restart clean date
 
